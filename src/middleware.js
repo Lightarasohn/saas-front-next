@@ -28,9 +28,17 @@ export async function middleware(request) {
         return NextResponse.redirect(url);
     }
 
+    const ip = request.headers.get("x-forwarded-for")
+                ?? request.headers.get("x-real-ip")
+                ?? "";
+                
     const res = await fetch(`${API}/api/auth/refresh`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+            "Content-Type": "application/json",
+            "X-Forwarded-For": ip,
+            "User-Agent": request.headers.get("user-agent") ?? "",
+        },
         body: JSON.stringify({ refreshToken }),
         cache: "no-store",
     });

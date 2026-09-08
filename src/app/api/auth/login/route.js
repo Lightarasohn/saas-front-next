@@ -3,11 +3,18 @@ import { cookies } from "next/headers";
 const API = process.env.API_URL;
 
 export async function POST(request) {
+    const ip = request.headers.get("x-forwarded-for")
+                ?? request.headers.get("x-real-ip")
+                ?? "";
     const body = await request.json();
 
     const res = await fetch(`${API}/api/auth/login`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+            "Content-Type": "application/json",
+            "X-Forwarded-For": ip,
+            "User-Agent": request.headers.get("user-agent") ?? "",
+        },
         body: JSON.stringify(body),
     });
 

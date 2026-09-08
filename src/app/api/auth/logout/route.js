@@ -3,6 +3,9 @@ import { cookies } from "next/headers";
 const API = process.env.API_URL;
 
 export async function POST() {
+    const ip = request.headers.get("x-forwarded-for")
+                ?? request.headers.get("x-real-ip")
+                ?? "";
     const cookieStore = await cookies();
     const refreshToken = cookieStore.get("refreshToken")?.value;
 
@@ -10,7 +13,11 @@ export async function POST() {
         try {
             await fetch(`${API}/api/auth/logout`, {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: { 
+                    "Content-Type": "application/json",
+                    "X-Forwarded-For": ip,
+                    "User-Agent": request.headers.get("user-agent") ?? "",
+                },
                 body: JSON.stringify({ refreshToken }),
                 cache: "no-store",
             });
