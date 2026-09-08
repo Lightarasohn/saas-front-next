@@ -1,12 +1,15 @@
-"use client"
+"use client";
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import Card from "../ui/Card";
+import Button from "../ui/Button";
+import Alert from "../ui/Alert";
 
 const VerifyAccount = () => {
   const searchParams = useSearchParams();
-  const token = searchParams.get("token");
+  const token = searchParams.get("rawToken");
 
   const [isVerifying, setIsVerifying] = useState(false);
   const [message, setMessage] = useState("");
@@ -15,45 +18,48 @@ const VerifyAccount = () => {
   useEffect(() => {
     (async () => {
       if (!token) {
-        setMessage("Geçersiz bağlantı. ");
+        setMessage("Geçersiz bağlantı.");
         setStatus("retry");
         return;
       }
       try {
-        const res = await fetch(`/api/auth/validate-verify-account?token=${token}`, {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-          cache: "no-store"
-        });
-        
+        const res = await fetch(
+          `/api/auth/validate-verify-account?rawToken=${token}`,
+          { cache: "no-store" },
+        );
         const body = await res.json();
+
         if (body.isSuccess) {
           setStatus("ready");
+        } else if (res.status === 409) {
+          setStatus("alreadyDone");
         } else {
           setMessage(body.message);
           setStatus("retry");
         }
-      } catch (err) {
-        setMessage("Sunucu Problemi");
+      } catch {
+        setMessage("Sunucu problemi.");
         setStatus("retry");
       }
     })();
   }, [token]);
 
-  const handleVerifyAccount = async (e) => {
-    e.preventDefault();
+  const handleVerifyAccount = async () => {
     setIsVerifying(true);
     setMessage("");
     try {
-      const res = await fetch(`/api/auth/verify-account`, {
+      const res = await fetch("/api/auth/verify-account", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         cache: "no-store",
-        body: JSON.stringify({ rawtoken: token })
+        body: JSON.stringify({ rawToken: token }),
       });
       const body = await res.json();
+
       if (body.isSuccess) {
         setStatus("done");
+      } else if (res.status === 409) {
+        setStatus("alreadyDone");
       } else {
         setMessage(body.message);
       }
@@ -64,32 +70,56 @@ const VerifyAccount = () => {
       setIsVerifying(false);
     }
   };
+
   return (
-    <>
-      <div className="flex flex-col gap-4 justify-center items-center bg-white p-4 border border-gray-400 rounded shadow-sm">
-        <h1 className="text-black">Parola Sıfırla</h1>
-        {status === "checking" ? <p>Bağlantı kontrol ediliyor...</p> : null}
+    <div className="w-full max-w-sm">
+      <Card className="flex flex-col gap-4">
+        <h1 className="text-2xl font-semibold">Hesabı Aktifleştir</h1>
+
+        {status === "checking" ? (
+          <p className="text-sm text-neutral-500">Bağlantı kontrol ediliyor...</p>
+        ) : null}
+
         {status === "ready" ? (
-          <button onClick={handleVerifyAccount} className="bg-blue-500 hover:bg-blue-300 border border-black py-2 px-4" disabled={isVerifying} >Hesabı Aktifleştir</button>
+          <>
+            <p className="text-sm text-neutral-500">
+              Hesabını aktifleştirmek için aşağıdaki butona bas.
+            </p>
+            <Button onClick={handleVerifyAccount} isLoading={isVerifying} className="w-full">
+              {isVerifying ? "Aktifleştiriliyor..." : "Hesabı Aktifleştir"}
+            </Button>
+            <Alert variant="error">{message}</Alert>
+          </>
         ) : null}
+
         {status === "retry" ? (
-          <p className="text-black">
-            {message}:
-            <Link href="/login" replace className="hover:text-blue-500">
-              Yeniden Dene
-            </Link>
-          </p>
-        ) : null}
-        {status === "done" ? (
-          <p>
-            Hesap Aktifleştirildi.
-            <Link href="/login" replace>
+          <>
+            <Alert variant="error">{message}</Alert>
+            <Link href="/login" className="text-sm font-medium text-primary-600 hover:underline">
               Giriş Yap
             </Link>
-          </p>
+          </>
         ) : null}
-      </div>
-    </>
+
+        {status === "done" ? (
+          <>
+            <Alert variant="success">Hesabın aktifleştirildi.</Alert>
+            <Link href="/login" className="text-sm font-medium text-primary-600 hover:underline">
+              Giriş Yap
+            </Link>
+          </>
+        ) : null}
+
+        {status === "alreadyDone" ? (
+          <>
+            <Alert variant="info">Hesabın zaten aktifleştirilmiş.</Alert>
+            <Link href="/login" className="text-sm font-medium text-primary-600 hover:underline">
+              Giriş Yap
+            </Link>
+          </>
+        ) : null}
+      </Card>
+    </div>
   );
 };
 

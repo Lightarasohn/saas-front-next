@@ -1,26 +1,100 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* ---------- Primary: lacivert (ana eylem, marka) ---------- */
+  --color-primary-50:  #E0FBFC;
+  --color-primary-100: #C5EDF3;
+  --color-primary-200: #AFD9E7;
+  --color-primary-300: #98C1D9;
+  --color-primary-400: #7AA4C4;
+  --color-primary-500: #5C82A5;
+  --color-primary-600: #3D5A80;
+  --color-primary-700: #34506F;
+  --color-primary-800: #2C425C;
+  --color-primary-900: #243549;
+
+  /* ---------- Accent: mercan (vurgu, dikkat) ---------- */
+  --color-accent-50:  #FDF1ED;
+  --color-accent-100: #FADCD3;
+  --color-accent-200: #F6BEAD;
+  --color-accent-300: #F29E86;
+  --color-accent-400: #F08669;
+  --color-accent-500: #EE6C4D;
+  --color-accent-600: #DA5334;
+  --color-accent-700: #B5412A;
+  --color-accent-800: #8E3421;
+  --color-accent-900: #5F2416;
+
+  /* ---------- Neutral: lacivert tonlu gri (metin, yüzey, kenarlık) ---------- */
+  --color-neutral-50:  #F7F8FA;
+  --color-neutral-100: #EEF0F4;
+  --color-neutral-200: #DCE0E7;
+  --color-neutral-300: #C0C7D2;
+  --color-neutral-400: #929BAB;
+  --color-neutral-500: #6E7887;
+  --color-neutral-600: #545E6E;
+  --color-neutral-700: #414A59;
+  --color-neutral-800: #343C49;
+  --color-neutral-900: #293241;
+  --color-neutral-950: #1B212B;
+
+  /* ---------- Semantik ---------- */
+  --color-success:        #2E7D64;
+  --color-success-bg:     #EBF5F1;
+  --color-success-border: #B9DED1;
+
+  --color-warning:        #C77E23;
+  --color-warning-bg:     #FBF3E6;
+  --color-warning-border: #EDD3A6;
+
+  --color-error:          #B3252E;
+  --color-error-bg:       #FBECEC;
+  --color-error-border:   #E8B9BC;
+
+  --color-info:           #3D5A80;
+  --color-info-bg:        #E0FBFC;
+  --color-info-border:    #AFD9E7;
+
+  /* ---------- Yazı tipleri (layout.js'teki next/font değişkenleri) ---------- */
+  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+/* ============================================================
+   Temel stiller
+   ============================================================ */
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
   }
-}
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  body {
+    background-color: var(--color-neutral-50);
+    color: var(--color-neutral-900);
+    font-family: var(--font-sans);
+  }
+
+  /* Odak halkası: klavyeyle gezinenler için her yerde tutarlı */
+  :focus-visible {
+    outline: 2px solid var(--color-primary-500);
+    outline-offset: 2px;
+  }
+
+  /* Tarayıcı varsayılan odak halkasını kaldırıp kendi ring'imizi
+     kullandığımız yerlerde çakışma olmasın */
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  /* Başlıklar: varsayılan olarak ana metin rengi ve dengeli satır kırma */
+  h1, h2, h3, h4 {
+    color: var(--color-neutral-900);
+    text-wrap: balance;
+  }
+
+  /* Uzun kelimeler (token, e-posta) kutudan taşmasın */
+  code, pre {
+    font-family: var(--font-mono);
+  }
 }

@@ -1,9 +1,9 @@
 import VerifyAccount from "@/components/verify-account/VerifyAccountPage";
 
-export default function VerifyAccountPage(){
-    return (
-        <div className="flex flex-col justify-center items-center min-h-lvh bg-gray-50">
-            <VerifyAccount />
-        </div>
-    );
-};
+export default function VerifyAccountPage() {
+  return (
+    <div className="flex min-h-lvh flex-col items-center justify-center gap-4 p-4">
+      <VerifyAccount />
+    </div>
+  );
+}

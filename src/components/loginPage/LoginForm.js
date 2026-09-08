@@ -1,83 +1,87 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { loginSchema } from "@/lib/validation";
+import Button from "../ui/Button";
+import Input from "../ui/Input";
+import Alert from "../ui/Alert";
+import Card from "../ui/Card";
 
 const LoginForm = () => {
-    const router = useRouter();
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [mesaj, setMesaj] = useState("");
-    const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setMesaj("");
-        setIsSubmitting(true);
-        try {
-            const res = await fetch("/api/auth/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({email, password}),
-            });
-            const body = await res.json();
-            if (body.isSuccess) {
-                router.replace("/dashboard");
-            } else {
-                setMesaj(body.message);
-            }
-        } catch {
-            setMesaj("Sunucuya ulaşılamadı. Lütfen tekrar deneyin.");
-        } finally {
-            setIsSubmitting(false);
-        }
-    };
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    resolver: zodResolver(loginSchema),
+    mode: "onBlur",
+  });
 
-    return (
-        <form onSubmit={handleSubmit} className="w-full max-w-sm">
-            <div className="flex flex-col gap-4 rounded-lg border border-gray-300 bg-white p-6 shadow-sm">
-                <h1 className="text-xl font-semibold text-gray-900">Giriş Yap</h1>
+  const handleLogin = async (data) => {
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: data.email, password: data.password }),
+      });
+      const body = await res.json();
+      if (body.isSuccess) {
+        router.replace("/dashboard");
+        router.refresh();
+      } else {
+        setError("root", { message: body.message });
+      }
+    } catch {
+      setError("root", {
+        message: "Sunucuya ulaşılamadı. Lütfen tekrar deneyin.",
+      });
+    }
+  };
 
-                <label className="flex flex-col gap-1">
-                    <span className="text-sm font-medium text-gray-700">E-posta</span>
-                    <input
-                        type="email"
-                        autoComplete="email"
-                        className="rounded border border-gray-300 px-3 py-2 text-gray-900
-                                   focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                        value={email}
-                        onChange={(e) => { setEmail(e.target.value); setMesaj(""); }}
-                    />
-                </label>
+  return (
+    <form onSubmit={handleSubmit(handleLogin)} className="w-full max-w-sm">
+      <Card className="flex flex-col gap-4">
+        <h1 className="text-2xl font-semibold">Giriş Yap</h1>
 
-                <label className="flex flex-col gap-1">
-                    <span className="text-sm font-medium text-gray-700">Parola</span>
-                    <input
-                        type="password"
-                        autoComplete="current-password"
-                        className="rounded border border-gray-300 px-3 py-2 text-gray-900
-                                   focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                        value={password}
-                        onChange={(e) => { setPassword(e.target.value); setMesaj(""); }}
-                    />
-                </label>
-                <Link className="text-xs max-w-fit hover:text-blue-300" href="/forgot-password">Parolamı Unuttum</Link>
+        <Input
+          label="E-posta"
+          type="email"
+          autoComplete="email"
+          error={errors.email?.message}
+          {...register("email")}
+        />
 
-                <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="rounded bg-blue-600 px-4 py-2 font-medium text-white
-                               hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50">
-                    {isSubmitting ? "Giriş yapılıyor..." : "Giriş"}
-                </button>
+        <Input
+          label="Parola"
+          type="password"
+          autoComplete="current-password"
+          error={errors.password?.message}
+          {...register("password")}
+        />
 
-                {mesaj ? (
-                    <p className="rounded bg-red-50 px-3 py-2 text-sm text-red-700">{mesaj}</p>
-                ) : null}
-            </div>
-        </form>
-    );
+        <Link
+          href="/forgot-password"
+          className="max-w-fit text-xs text-primary-600 hover:underline"
+        >
+          Parolamı Unuttum
+        </Link>
+
+        <Button type="submit" isLoading={isSubmitting} className="w-full">
+          {isSubmitting ? "Giriş yapılıyor..." : "Giriş"}
+        </Button>
+
+        <Alert variant="error">
+          {errors.root?.message}
+        </Alert>
+      </Card>
+    </form>
+  );
 };
 
 export default LoginForm;
