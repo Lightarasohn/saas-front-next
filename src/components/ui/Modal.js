@@ -42,7 +42,7 @@ const Modal = ({
             <div
                 role="dialog"
                 aria-modal="true"
-                className={`flex w-full ${sizes[size]} flex-col gap-4 rounded-lg bg-white p-6 shadow-xl`}
+                className={`flex w-full ${sizes[size]} flex-col gap-4 rounded bg-white p-6 shadow-xl`}
                 onClick={(e) => e.stopPropagation()}
             >
                 {title ? <h2 className="text-lg font-semibold">{title}</h2> : null}

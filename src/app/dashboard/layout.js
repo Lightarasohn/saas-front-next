@@ -1,6 +1,6 @@
+import DashboardHeader from "@/components/dashboard/header/DashboardHeader";
+import DashboardSidebar from "@/components/dashboard/sidebar/DashboardSidebar";
 import { getMe, getModules } from "@/lib/server-api";
-import DashboardHeader from "@/components/dashboard/DashboardHeader";
-import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
 
 //TODO: DASHBOARDHEADER VE DASHBOARDSIDEBAR YAP 
 export default async function DashboardLayout({ children }) {

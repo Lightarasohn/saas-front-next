@@ -1,4 +1,4 @@
-const base = "rounded-lg border bg-white";
+const base = "rounded border bg-white";
 
 const variants = {
     default:     "border-neutral-200 shadow-sm",

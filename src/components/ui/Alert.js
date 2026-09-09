@@ -1,4 +1,4 @@
-const base = "rounded border px-3 py-2 text-sm";
+const base = "rounded-sm border px-3 py-2 text-sm";
 
 const variants = {
     success: "border-success-border bg-success-bg text-success",

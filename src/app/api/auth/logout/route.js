@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 
 const API = process.env.API_URL;
 
-export async function POST() {
+export async function POST(request) {
     const ip = request.headers.get("x-forwarded-for")
                 ?? request.headers.get("x-real-ip")
                 ?? "";

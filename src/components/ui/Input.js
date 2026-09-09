@@ -5,9 +5,9 @@ const Input = forwardRef(function Input(
     ref
 ) {
     const base =
-        "rounded border bg-white px-3 py-2 text-sm text-neutral-900 transition-colors " +
-        "focus:outline-none focus:ring-1 " +
-        "disabled:bg-neutral-100 disabled:text-neutral-400";
+    "rounded-sm border bg-white px-3 py-2 text-sm text-neutral-900 transition-colors " +
+    "focus:outline-none focus:ring-1 " +
+    "disabled:bg-neutral-100 disabled:text-neutral-400";
 
     const borderClass = error
         ? "border-error focus:border-error focus:ring-error"

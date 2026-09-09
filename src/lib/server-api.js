@@ -1,7 +1,8 @@
 import { cookies } from "next/headers";
 
+const API = process.env.API_URL;
+
 export async function getMe() {
-    const API = process.env.API_URL;
     const cookieStore = await cookies();
     const accessToken = cookieStore.get("accessToken")?.value;
 
