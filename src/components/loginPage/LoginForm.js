@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { loginSchema } from "@/lib/validation";
+import { loginSchema } from "@/lib/validation/auth-validation";
 import Button from "../ui/Button";
 import Input from "../ui/Input";
 import Alert from "../ui/Alert";

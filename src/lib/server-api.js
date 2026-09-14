@@ -2,6 +2,29 @@ import { cookies } from "next/headers";
 
 const API = process.env.API_URL;
 
+export async function fetchServer(endpoint, options = {}) {
+    const cookieStore = await cookies();
+    const accessToken = cookieStore.get("accessToken")?.value;
+    const headers = {
+        "Content-Type": "application/json",
+        ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+        ...(options.headers || {}),
+    };
+
+    try {
+        const res = await fetch(`${API}${endpoint}`, {
+            ...options,
+            headers,
+            cache: options.cache || "no-store",
+        });
+
+        const body = await res.json();
+        return body; 
+    } catch (error) {
+        return { isSuccess: false, message: "Sunucuya bağlanılamadı", data: null };
+    }
+}
+
 export async function getMe() {
     const cookieStore = await cookies();
     const accessToken = cookieStore.get("accessToken")?.value;

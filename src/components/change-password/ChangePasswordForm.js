@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { changePasswordSchema } from "@/lib/validation";
+import { changePasswordSchema } from "@/lib/validation/auth-validation";
 import Card from "../ui/Card";
 import Input from "../ui/Input";
 import Button from "../ui/Button";

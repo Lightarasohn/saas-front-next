@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { registerSchema } from "@/lib/validation";
+import { registerSchema } from "@/lib/validation/auth-validation";
 import RegisteredModal from "./RegisteredModal";
 import Card from "../ui/Card";
 import Input from "../ui/Input";

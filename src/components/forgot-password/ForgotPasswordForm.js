@@ -1,6 +1,6 @@
 "use client";
 
-import { forgotPasswordSchema } from "@/lib/validation";
+import { forgotPasswordSchema } from "@/lib/validation/auth-validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
