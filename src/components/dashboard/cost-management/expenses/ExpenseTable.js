@@ -104,6 +104,7 @@ export default function ExpenseTable({
                             const isBusy = busyId === expense.publicId;
                             const isRejected =
                                 expense.statusId === EXPENSE_STATUS.REJECTED;
+                            const isUnitActive = expense.orgUnitIsActive !== false;
  
                             return (
                                 <tr
@@ -145,7 +146,10 @@ export default function ExpenseTable({
                                         </div>
  
                                         {isRejected && expense.rejectReason ? (
-                                            <div className="mt-0.5 flex max-w-60 items-start gap-1 text-xs text-error">
+                                            <div
+                                                className="mt-0.5 flex max-w-60 items-start gap-1 text-xs text-error"
+                                                title={expense.rejectReason}
+                                            >
                                                 <Ban
                                                     size={11}
                                                     className="mt-0.5 shrink-0"
@@ -160,9 +164,24 @@ export default function ExpenseTable({
  
                                     {showBudgetColumn ? (
                                         <td className="px-2 py-2 align-top">
-                                            <div className="max-w-35 truncate text-neutral-700">
-                                                {expense.orgUnitName}
+                                            <div className="flex max-w-45 items-center gap-1.5">
+                                                <span
+                                                    className={`truncate ${
+                                                        isUnitActive
+                                                            ? "text-neutral-700"
+                                                            : "text-neutral-400"
+                                                    }`}
+                                                >
+                                                    {expense.orgUnitName}
+                                                </span>
+ 
+                                                {!isUnitActive ? (
+                                                    <span className="shrink-0 rounded-sm bg-neutral-100 px-1.5 py-0.5 text-xs text-neutral-500">
+                                                        Pasif
+                                                    </span>
+                                                ) : null}
                                             </div>
+ 
                                             <div className="text-xs text-neutral-400">
                                                 {formatPeriod(
                                                     expense.budgetMonth,

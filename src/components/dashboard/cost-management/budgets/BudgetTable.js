@@ -42,6 +42,10 @@ export default function BudgetTable({ budgets, canManage, onEdit }) {
                                   ? "bg-warning"
                                   : "bg-primary-600";
  
+                        // Pasif birimin geçmiş bütçesi listede kalır — silinmiş
+                        // değil, yalnızca yeni işlem yapılamaz.
+                        const isUnitActive = budget.orgUnitIsActive !== false;
+ 
                         return (
                             <tr
                                 key={budget.publicId}
@@ -51,8 +55,22 @@ export default function BudgetTable({ budgets, canManage, onEdit }) {
                                     {formatPeriod(budget.month, budget.year)}
                                 </td>
  
-                                <td className="px-2 py-2 text-neutral-700">
-                                    {budget.orgUnitName}
+                                <td className="px-2 py-2">
+                                    <span
+                                        className={
+                                            isUnitActive
+                                                ? "text-neutral-700"
+                                                : "text-neutral-400"
+                                        }
+                                    >
+                                        {budget.orgUnitName}
+                                    </span>
+ 
+                                    {!isUnitActive ? (
+                                        <span className="ml-1.5 rounded-sm bg-neutral-100 px-1.5 py-0.5 text-xs text-neutral-500">
+                                            Pasif
+                                        </span>
+                                    ) : null}
                                 </td>
  
                                 <td className="px-2 py-2 text-right tabular-nums text-neutral-900">
@@ -97,7 +115,7 @@ export default function BudgetTable({ budgets, canManage, onEdit }) {
                                             <ArrowRight size={14} aria-hidden="true" />
                                         </Link>
  
-                                        {canManage ? (
+                                        {canManage && isUnitActive ? (
                                             <button
                                                 type="button"
                                                 onClick={() => onEdit(budget)}

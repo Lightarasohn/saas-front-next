@@ -98,3 +98,8 @@ export const changeUserRoleSchema = z.object({
     userPublicId: z.string().uuid("Geçersiz kullanıcı"),
     roleId: z.coerce.number().int().min(1).max(3),
 });
+
+export const orgUnitUpdateSchema = z.object({
+    orgUnitPublicId: z.string().uuid("Geçersiz birim"),
+    name: z.string().min(1, "Birim adı zorunludur").max(255, "En fazla 255 karakter olabilir"),
+});

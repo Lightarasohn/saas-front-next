@@ -1,6 +1,6 @@
 "use client";
  
-import { CornerDownRight } from "lucide-react";
+import { CornerDownRight, Users } from "lucide-react";
  
 export default function OrgUnitTree({ orgUnits, selectedId, onSelect }) {
     if (orgUnits.length === 0) {
@@ -39,6 +39,16 @@ export default function OrgUnitTree({ orgUnits, selectedId, onSelect }) {
                         <span className={unit.isActive ? "" : "text-neutral-400"}>
                             {unit.name}
                         </span>
+ 
+                        {unit.memberCount > 0 ? (
+                            <span
+                                className="flex items-center gap-1 text-xs text-neutral-400"
+                                title={`${unit.memberCount} üye`}
+                            >
+                                <Users size={11} aria-hidden="true" />
+                                {unit.memberCount}
+                            </span>
+                        ) : null}
  
                         {!unit.isActive ? (
                             <span className="rounded-sm bg-neutral-100 px-1.5 py-0.5 text-xs text-neutral-500">
