@@ -4,7 +4,7 @@ import { fetchServer } from "@/lib/server-api";
 export async function POST(request) {
     const payload = await request.json();
  
-    const { status, body } = await fetchServer("/api/Budget/can-update", {
+    const { status, body } = await fetchServer("/api/Expense/reject", {
         method: "POST",
         body: JSON.stringify(payload),
     });

@@ -2,15 +2,15 @@ import { NextResponse } from "next/server";
 import { fetchServer } from "@/lib/server-api";
  
 export async function GET() {
-    const { status, body } = await fetchServer("/api/OrgUnit");
+    const { status, body } = await fetchServer("/api/UserManagemet");
     return NextResponse.json(body, { status });
 }
  
-export async function POST(request) {
+export async function PUT(request) {
     const payload = await request.json();
  
-    const { status, body } = await fetchServer("/api/OrgUnit", {
-        method: "POST",
+    const { status, body } = await fetchServer("/api/UserManagemet", {
+        method: "PUT",
         body: JSON.stringify(payload),
     });
  

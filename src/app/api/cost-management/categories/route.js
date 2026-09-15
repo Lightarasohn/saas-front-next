@@ -1,25 +1,29 @@
 import { NextResponse } from "next/server";
 import { fetchServer } from "@/lib/server-api";
-
+ 
 export async function GET() {
-    const data = await fetchServer("/api/ExpenseCategory");
-    return NextResponse.json(data);
+    const { status, body } = await fetchServer("/api/ExpenseCategory");
+    return NextResponse.json(body, { status });
 }
-
+ 
 export async function POST(request) {
-    const body = await request.json();
-    const data = await fetchServer("/api/ExpenseCategory", {
+    const payload = await request.json();
+ 
+    const { status, body } = await fetchServer("/api/ExpenseCategory", {
         method: "POST",
-        body: JSON.stringify(body),
+        body: JSON.stringify(payload),
     });
-    return NextResponse.json(data);
+ 
+    return NextResponse.json(body, { status });
 }
-
+ 
 export async function PUT(request) {
-    const body = await request.json();
-    const data = await fetchServer("/api/ExpenseCategory", {
+    const payload = await request.json();
+ 
+    const { status, body } = await fetchServer("/api/ExpenseCategory", {
         method: "PUT",
-        body: JSON.stringify(body),
+        body: JSON.stringify(payload),
     });
-    return NextResponse.json(data);
+ 
+    return NextResponse.json(body, { status });
 }
