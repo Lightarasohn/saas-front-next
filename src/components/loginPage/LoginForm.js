@@ -57,6 +57,13 @@ const LoginForm = () => {
           {...register("email")}
         />
 
+        <Link
+          href="/forgot-email"
+          className="max-w-fit text-xs text-primary-600 hover:underline"
+        >
+          E-postamı Unuttum
+        </Link>
+
         <Input
           label="Parola"
           type="password"

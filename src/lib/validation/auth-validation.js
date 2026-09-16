@@ -12,6 +12,15 @@ export const changePasswordSchema = z.object({
     newPassword: passwordSchema,
 });
 
+export const changePasswordDirectlySchema = z.object({
+    oldPassword: passwordSchema,
+    newPassword: passwordSchema,
+});
+
+export const changeEmailSchema = z.object({
+    email: z.email("Geçerli bir e-posta girin")
+});
+
 export const registerSchema = z.object({
     name: z.string().min(1, "Ad soyad gerekli"),
     email: z.string().email("Geçerli bir e-posta girin"),
@@ -26,4 +35,8 @@ export const loginSchema = z.object({
 
 export const forgotPasswordSchema = z.object({
     email: z.string().email("Geçerli bir e-posta girin"),
+});
+
+export const forgotEmailSchema = z.object({
+    secretKey: z.string().min(1, "Bu alan gerekli"),
 });

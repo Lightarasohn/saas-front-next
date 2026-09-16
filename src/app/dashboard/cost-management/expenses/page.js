@@ -1,5 +1,5 @@
-import ExpenseManager from "@/components/dashboard/cost-management/expenses/ExpenseManager";
 import { fetchServer, getMe } from "@/lib/server-api";
+import ExpenseManager from "@/components/dashboard/cost-management/expenses/ExpenseManager";
  
 export default async function ExpensesPage({ searchParams }) {
     const params = await searchParams;
@@ -21,9 +21,7 @@ export default async function ExpensesPage({ searchParams }) {
     const expenses = expenseRes.body.isSuccess ? expenseRes.body.data : [];
     const budgets = budgetRes.body.isSuccess ? budgetRes.body.data : [];
     const categories = categoryRes.body.isSuccess ? categoryRes.body.data : [];
-    console.log("categories:", categories);
  
-    // Filtrelenen bütçenin tam kaydı — üstte bağlam paneli için
     const activeBudget =
         budgets.find((b) => b.publicId === params.budgetPublicId) ?? null;
  
@@ -34,6 +32,7 @@ export default async function ExpensesPage({ searchParams }) {
             categories={categories}
             activeBudget={activeBudget}
             me={me}
+            showInactive={params.showInactive === "true"}
             filters={{
                 budgetPublicId: params.budgetPublicId ?? "",
                 statusId: params.statusId ?? "",

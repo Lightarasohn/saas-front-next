@@ -1,5 +1,5 @@
-import BudgetManager from "@/components/dashboard/cost-management/budgets/BudgetManager";
 import { fetchServer } from "@/lib/server-api";
+import BudgetManager from "@/components/dashboard/cost-management/budgets/BudgetManager";
  
 export default async function BudgetsPage({ searchParams }) {
     const params = await searchParams;
@@ -26,6 +26,7 @@ export default async function BudgetsPage({ searchParams }) {
             budgets={budgets}
             orgUnits={orgUnits}
             canManage={canManage}
+            showInactive={params.showInactive === "true"}
             filters={{
                 year: params.year ?? "",
                 month: params.month ?? "",
