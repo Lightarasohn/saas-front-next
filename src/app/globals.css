@@ -98,3 +98,21 @@
     font-family: var(--font-mono);
   }
 }
+
+/* react-grid-layout: sürüklenirken görünen boş alan */
+.react-grid-item.react-grid-placeholder {
+  background-color: var(--color-primary-100);
+  border-radius: 0.25rem; /* rounded, panel ile aynı */
+  opacity: 0.6;
+}
+
+/* Boyutlandırma tutamacı: neutral-400, primary-500 hover */
+.react-resizable-handle {
+  opacity: 0.6;
+}
+.react-resizable-handle::after {
+  border-color: transparent var(--color-neutral-400) var(--color-neutral-400) transparent !important;
+}
+.react-grid-item:hover .react-resizable-handle::after {
+  border-color: transparent var(--color-primary-500) var(--color-primary-500) transparent !important;
+}

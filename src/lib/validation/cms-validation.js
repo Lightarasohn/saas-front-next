@@ -16,7 +16,11 @@ export const expenseCategoryUpdateSchema = z.object({
 });
  
 export const orgUnitCreateSchema = z.object({
-    parentPublicId: z.string().uuid().nullable().optional(),
+    // Gelen değer boş string ise null'a çevir, sonra UUID/nullable/optional kontrolü yap
+    parentPublicId: z.preprocess(
+        (val) => (val === "" ? null : val), 
+        z.string().uuid("Geçerli bir UUID formatı olmalıdır").nullable().optional()
+    ),
     name: z
         .string()
         .min(1, "Birim adı zorunludur")
