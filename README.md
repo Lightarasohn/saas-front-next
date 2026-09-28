@@ -16,6 +16,38 @@ Backend ayrı bir depoda bulunan ASP.NET Core Web API'dir. API, PostgreSQL'deki 
 - Abonelik planı, yenileme ve otomatik yenileme ekranları.
 - Next.js API route'ları üzerinden backend proxy/BFF katmanı; erişim ve refresh token'ları `HttpOnly` cookie'lerde tutan oturum akışı.
 
+## Ekran Görüntüleri
+
+Görselleri `docs/screenshots/` klasörüne aşağıdaki adlarla ekleyin. Dosyalar eklendiğinde bu bölümde otomatik görünür:
+
+### Landing Page
+
+![Landing Page](docs/screenshots/landing-page.png)
+
+### Dashboard
+
+![Dashboard ve widget'lar](docs/screenshots/dashboard.png)
+
+### Abonelik
+
+![Abonelik sayfası](docs/screenshots/subscription.png)
+
+### Profil
+
+![Profil sayfası](docs/screenshots/profile.png)
+
+### Masraflar
+
+![Masraflar sayfası](docs/screenshots/expenses.png)
+
+### Bütçeler
+
+![Bütçeler sayfası](docs/screenshots/budgets.png)
+
+### Birimler
+
+![Organizasyon birimleri sayfası](docs/screenshots/org-units.png)
+
 ## Teknolojiler
 
 - Next.js 16 ve React 19
